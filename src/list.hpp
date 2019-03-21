@@ -1,3 +1,6 @@
+#ifndef LIST_H
+#define LIST_H
+
 #include <iostream>
 #include <cstdlib>
 
@@ -21,13 +24,17 @@ class List
         Node<T>* first;
     public:
         List(): m_size(0), first(NULL) {}
+        List(const List& list);
+        List<T>& operator=(const List& list);
         ~List();
-        
+
         void get_size();
         bool is_empty();
-        
+
         void insert(int pos, T new_data); 
         void remove(int pos);
+
+        T& front();
 
         void push_back(T data);
         void pop_back();
@@ -37,6 +44,40 @@ class List
         friend std::ostream& operator<< <>(std::ostream& out, const List& l);
 };
 
+#endif
+
+template <typename T>
+T& List<T>::front()
+{
+    return first->data;
+}
+
+template <typename T>
+List<T>::List(const List<T>& list)
+    : m_size(0)
+      , first(NULL)
+{
+    Node<T>* new_node = list.first;
+    while (new_node)
+    {
+        push_back(new_node->data);
+        new_node = new_node->next;
+    }
+}
+
+template <typename T>
+List<T>& List<T>::operator=(const List& list)
+{
+    Node<T>* new_node = list.first;
+    while (new_node)
+    {
+        push_back(new_node->data);
+        new_node = new_node->next;
+    }
+    return *this;
+}
+
+
 template <typename T>
 List<T>::~List()
 {
@@ -45,7 +86,7 @@ List<T>::~List()
         Node<T>* next_node = curr->next;
         delete curr;
         curr = next_node;
-   }
+    }
 }
 
 template <typename T>
@@ -64,19 +105,23 @@ bool List<T>::is_empty()
 template <typename T>
 void List<T>::insert(int pos, T data) 
 { 
-    if (pos > m_size) {
+    if (pos >= m_size) {
         std::cout << "Out of range" << std::endl;
         return;
     }
     Node<T>* new_node = new Node<T>;
     new_node->data = data;
-    new_node->next = NULL;
-    Node<T>* temp = first;
-    for (int i = 0; i < pos - 1; ++i) {
-        temp = temp->next;
+    if (pos == 0) {
+        new_node->next = first;
+        first = new_node;
+    } else {
+        Node<T>* temp = first;
+        for (int i = 1; i < pos; ++i) {
+            temp = temp->next;
+        }
+        new_node->next  = temp->next ;
+        temp->next  = new_node;
     }
-    new_node->next  = temp->next ;
-    temp->next  = new_node;
     ++m_size;
 } 
 
@@ -91,53 +136,66 @@ void List<T>::remove(int pos)
         std::cout << "Removing element's index is out of range" << std::endl;
         return;
     }
-    Node<T>* curr = first->next;;
-    for (int i = 1; curr != NULL && i < pos - 2; ++i) {
-        curr = curr->next;
+    if (pos == 0) {
+        if(first->next != NULL){
+            Node<T>* temp = first->next;
+            delete first;
+            first = temp;
+        }
+        else {
+            delete first; 
+            first = NULL;
+        }
+    } else {
+        Node<T>* curr = first;;
+        for (int i = 1; curr != NULL && i < pos; ++i) {
+            curr = curr->next;
+        }
+        Node<T>* temp = curr->next;
+        curr->next = temp->next;
+        delete temp;
     }
-    Node<T>* temp = curr->next;
-    curr->next = temp->next;
-    delete temp;
     --m_size;
 }
 
 template <typename T>
 void List<T>::pop_back()
 {
-    remove(m_size);
+    remove(--m_size);
 }
 
 template <typename T>
 void List<T>::push_back(T data) 
 {
     ++m_size;
-	Node<T>* new_node = new Node<T>;
-	new_node->data = data;
-	new_node->next = NULL;
-	if(is_empty()) {
-		first = new_node;
-		return;
-	}
-	Node<T>* curr = first;
-	while(curr) {
-		if(curr->next == NULL) {
-			curr->next = new_node;
-			return;
-		}
-		curr = curr->next;
-	}
+    Node<T>* new_node = new Node<T>;
+    new_node->data = data;
+    new_node->next = NULL;
+    if(is_empty()) {
+        first = new_node;
+        return;
+    }
+    Node<T>* curr = first;
+    while(curr) {
+        if(curr->next == NULL) {
+            curr->next = new_node;
+            return;
+        }
+        curr = curr->next;
+    }
 }
 
 template <typename T>
 void List<T>::reverse() 
 {
     Node<T>* curr = first;
-    Node<T>* prev = 0;
+    Node<T>* prev = NULL;
+    Node<T>* next = NULL;
     while (curr) {
-        Node<T>* temp = prev;
+        next = prev;
         prev = curr;
         curr = curr->next;
-        prev->next = temp;
+        prev->next = next;
     }
     first = prev;
 }
