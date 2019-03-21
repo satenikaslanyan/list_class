@@ -2,7 +2,6 @@
 #define LIST_H
 
 #include <iostream>
-#include <cstdlib>
 
 template <typename T> class List;
 
@@ -19,7 +18,7 @@ struct Node
 template <typename T>
 class List
 {
-    public:
+    protected:
         int m_size;
         Node<T>* first;
     public:
@@ -27,30 +26,20 @@ class List
         List(const List& list);
         List<T>& operator=(const List& list);
         ~List();
-
         void get_size();
         bool is_empty();
-
         void insert(int pos, T new_data); 
         void remove(int pos);
-
-        T& front();
-
         void push_back(T data);
         void pop_back();
-
         void reverse();
-
         friend std::ostream& operator<< <>(std::ostream& out, const List& l);
+        T& front();
+        T& back();
+
 };
 
 #endif
-
-template <typename T>
-T& List<T>::front()
-{
-    return first->data;
-}
 
 template <typename T>
 List<T>::List(const List<T>& list)
@@ -211,3 +200,19 @@ std::ostream& operator<<(std::ostream& out, const List<T>& l)
     std::cout << std::endl;
     return out;
 }
+
+template <typename T>
+T& List<T>::front()
+{
+    return first->data;
+}
+
+template <typename T>
+T& List<T>::back()
+{
+    Node<T>* curr = first;
+    for (int i = 1; i < m_size; ++i) {
+            curr = curr->next;
+    }
+    return curr->data;
+} 

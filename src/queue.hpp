@@ -11,31 +11,31 @@ class Queue : public List<T>
     private:
         List<T> m_list;
     public:
-        T& s_front();
-        T& s_back();
-        void s_push(T item);
-        void s_pop();
-        bool s_is_empty();
+        bool q_is_empty();
+        T& q_front();
+        T& q_back();
+        void push(T item);
+        void pop();
 };
 
 #endif
 
 template <class T>
-bool Queue<T>::s_is_empty()
+bool Queue<T>::q_is_empty()
 {
-    return m_list.m_size == 0;
+    return m_list.is_empty();
 }
 
 template <class T>
-void Queue<T>::s_push(T item)
+void Queue<T>::push(T item)
 {
     m_list.push_back(item);
 }
 
 template <class T>
-void Queue<T>::s_pop()
+void Queue<T>::pop()
 {
-    if (s_is_empty()) {
+    if (m_list.is_empty()) {
         std::cout << "Queue is empty" << std::endl;
         return;
     }
@@ -43,20 +43,20 @@ void Queue<T>::s_pop()
 }
 
 template <class T>
-T& Queue<T>::s_front()
+T& Queue<T>::q_front()
 {
-    if(s_is_empty()) {
+    if(q_is_empty()) {
         throw "Empty queue hasn't front element";
     }
     return m_list.front();
 }
-/*
+
 template <class T>
-T& Queue<T>::back()
+T& Queue<T>::q_back()
 {
-    if(is_empty()) {
+    if(q_is_empty()) {
         throw "Empty queue hasn't back element";
     }
     return m_list.back();
 }
-*/
+
