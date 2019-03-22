@@ -20,6 +20,7 @@ int main()
     std::cout << l;
 
     Queue<int> q;
+    q.pop();
     try {
         std::cout << q.q_front() << std::endl;
     } catch (const char* c) {

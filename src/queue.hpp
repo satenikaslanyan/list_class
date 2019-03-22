@@ -35,10 +35,6 @@ void Queue<T>::push(T item)
 template <class T>
 void Queue<T>::pop()
 {
-    if (m_list.is_empty()) {
-        std::cout << "Queue is empty" << std::endl;
-        return;
-    }
     m_list.remove(0);
 }
 
