@@ -30,7 +30,7 @@ int main()
         q.push(i);
     }
     std::cout << q.q_back() << std::endl;
-    while(!q.q_is_empty()){
+    while(!q.is_empty()){
         try {
             std::cout << q.q_front() << "  ";
         } catch (const char* c) {

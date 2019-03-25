@@ -22,7 +22,7 @@ class List
         int m_size;
         Node<T>* first;
     public:
-        List(): m_size(0), first(NULL) {}
+        List(): m_size(0), first(NULL) { std::cout << "List" << std::endl; }
         List(const List& list);
         List<T>& operator=(const List& list);
         ~List();
@@ -76,6 +76,7 @@ List<T>::~List()
         delete curr;
         curr = next_node;
     }
+    std::cout << "Deleted" << std::endl;
 }
 
 template <typename T>
@@ -118,7 +119,7 @@ template <typename T>
 void List<T>::remove(int pos) 
 {
     if (is_empty()) {
-        std::cout << "Can't remove element form empty list" << std::endl;
+        std::cout << "Cann't remove element form empty list" << std::endl;
         return;
     }
     if (pos > m_size) {
