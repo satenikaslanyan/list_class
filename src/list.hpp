@@ -26,15 +26,34 @@ class List
         List(const List& list);
         List<T>& operator=(const List& list);
         ~List();
-        void get_size();
+
+        //This function checks if the list is empty or not
         bool is_empty();
+
+        //This function inserts element in the 
+        //given position in the range of [0, m_size-2]
         void insert(int pos, T new_data); 
+
+        //This function deletes element in the 
+        //given position in the range of [0, m_size-1] 
         void remove(int pos);
+
+        //This function adds data in the end of the list
         void push_back(T data);
+
+        //This function deletes the last element of the list
         void pop_back();
+
+        //This function returns reverse of the list
         void reverse();
+
+        //Overload function for operator <<
         friend std::ostream& operator<< <>(std::ostream& out, const List& l);
+
+        //Returns the first element of the list
         T& front();
+
+        //returns the last element of the list
         T& back();
 
 };
@@ -77,13 +96,6 @@ List<T>::~List()
         curr = next_node;
     }
 }
-
-template <typename T>
-void List<T>::get_size()
-{
-    std::cout << "Size is: " << m_size << std::endl;
-}
-
 
 template <typename T>
 bool List<T>::is_empty()

@@ -9,11 +9,11 @@ int main()
         l.push_back(i);
     }
     std::cout << l;
-    l.get_size();
     l.insert(11, 110);
     l.insert(9, 110);
     std::cout << l;
-    l.remove(0);
+    l.remove(10);
+    std::cout << l;
     l.pop_back();
     std::cout<< l;
     l.reverse();
