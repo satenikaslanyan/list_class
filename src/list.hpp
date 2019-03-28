@@ -204,12 +204,18 @@ std::ostream& operator<<(std::ostream& out, const List<T>& l)
 template <typename T>
 T& List<T>::front()
 {
+    if(List<T>::is_empty()) {
+        throw "Empty list hasn't front element";
+    }
     return first->data;
 }
 
 template <typename T>
 T& List<T>::back()
 {
+    if(List<T>::is_empty()) {
+        throw "Empty list hasn't back element";
+    }
     Node<T>* curr = first;
     while(curr->next != NULL) {
         curr = curr->next;

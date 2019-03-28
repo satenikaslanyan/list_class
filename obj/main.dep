@@ -1,1 +1,0 @@
-obj/main.dep obj/main.o: src/main.cpp src/queue.hpp src/list.hpp
